@@ -1,6 +1,7 @@
 import '../App.css';
 import ContactList from './ContactList'
 import AddContact from './AddContact'
+import ContactDetail from './ContactDetail';
 import { useState } from 'react';
 import { BrowserRouter as Router,Routes,Route,Link } from 'react-router-dom';
 
@@ -8,7 +9,7 @@ import { BrowserRouter as Router,Routes,Route,Link } from 'react-router-dom';
 function App() {
   const [contacts,setContacts]=useState([{
       id:"1",name:"Aditi",phone:"1234"},{
-      id:"2",name:"Deepti",phone:"1234"
+      id:"2",name:"Deepti",phone:"5678"
   }])
   function addContactHandler(contact){
     contact.id=contacts.length+1;
@@ -27,6 +28,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<ContactList  contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
         <Route path="/add" element={<AddContact addContactHandler={addContactHandler}/>}></Route>
+        <Route path="/:id" element={<ContactDetail/>}></Route>
       </Routes>
     </Router> 
       </>
