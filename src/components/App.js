@@ -2,6 +2,9 @@ import '../App.css';
 import ContactList from './ContactList'
 import AddContact from './AddContact'
 import { useState } from 'react';
+import { BrowserRouter as Router,Routes,Route,Link } from 'react-router-dom';
+
+
 function App() {
   const [contacts,setContacts]=useState([{
       id:"1",name:"Aditi",phone:"1234"},{
@@ -19,11 +22,13 @@ function App() {
     setContacts(updatedContacts)
   }
   return (
-    <>
-    <AddContact addContactHandler={addContactHandler}/>
-    <ContactList contacts={contacts} deleteContactHandler={deleteContactHandler}/>
-    </>
-    
+    <Router>
+      <Routes>
+      <Route path="/" element={<ContactList  contacts={contacts} deleteContactHandler={deleteContactHandler}/>} />
+        <Route path="add" element={<AddContact addContactHandler={addContactHandler}/>}>
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
