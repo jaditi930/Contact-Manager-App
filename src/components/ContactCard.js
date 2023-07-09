@@ -1,7 +1,8 @@
 function ContactCard(props){
     return (
-    <li key={props.key}>
-        {props.contact.name}
+    <li>
+       <div>{props.contact.name}</div> 
+       <div>{props.contact.phone}</div>
     </li>
     )}
 export default ContactCard;
