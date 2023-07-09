@@ -21,15 +21,16 @@ function App() {
     })
     setContacts(updatedContacts)
   }
-  return (
+  
+  return (<>
     <Router>
       <Routes>
-      <Route path="/" element={<ContactList  contacts={contacts} deleteContactHandler={deleteContactHandler}/>} />
-        <Route path="add" element={<AddContact addContactHandler={addContactHandler}/>}>
-        </Route>
+        <Route exact path="/" element={<ContactList  contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
+        <Route path="/add" element={<AddContact addContactHandler={addContactHandler}/>}></Route>
       </Routes>
-    </Router>
-  );
+    </Router> 
+      </>
+      );
 }
 
 export default App;
