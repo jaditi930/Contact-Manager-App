@@ -1,5 +1,6 @@
 function AddContact (props){
     let contact={
+        id:"",
         name:"",
         phone:""
     }
