@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 
 export default function ContactDetail(){
     const location = useLocation();
@@ -7,6 +7,7 @@ export default function ContactDetail(){
     return (<>
     <div>{name}</div>
     <div>{phone}</div>
-    </>)
+    <Link to="/"><button>Back to Contacts</button></Link>
 
+    </>)
 }          
