@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 
 function AddContact (props){
     let contact={
-        id:"",
-        name:"",
-        phone:""
+        // id:"",
+        "name":"",
+        "phoneNumber":""
     }
     const navigate=useNavigate();
     return (
@@ -16,11 +16,12 @@ function AddContact (props){
             </div>
             <div>
                 <label htmlFor="phone">Phone Number</label>
-                <input type="number" id="phone" onChange={(e)=>{contact.phone=e.target.value}}></input>
+                <input type="number" id="phone" onChange={(e)=>{contact.phoneNumber=e.target.value}}></input>
             </div>
             <button onClick={()=>{
+                console.log(props.token)
                  props.addContactHandler(contact);
-                  navigate("/user/home")
+                  navigate("/user/home",{state:{}})
                   }}>
                 Add Contact</button>
         </form>

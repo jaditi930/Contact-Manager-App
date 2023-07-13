@@ -10,26 +10,20 @@ import axios from 'axios';
 import UserDetail from './UserDetail';
 
 function App() {
-  const [contacts,setContacts]=useState([{
-      id:"1",name:"Aditi",phone:"1234"},{
-      id:"2",name:"Deepti",phone:"5678"
-  }])
-  async function addContactHandler(contact){
-    var obj={}
-  //   contact.id=contacts.length+1;
-  //   const newContacts=[...contacts,contact]
-  //  setContacts(newContacts)
-  await axios.post('http://localhost:5000/api/contacts',contact,{
-    withCredentials:true,
-
-  })
+  const [contacts,setContacts]=useState([])
+  const [token,setToken]=useState("");
+  async function addContactHandler(newContact){
+    console.log(newContact)
+  await axios.post('http://localhost:5000/api/contacts',newContact,{headers:{
+    'Authorization':`Bearer ${token}`
+    }})
   .then((response) => {
     console.log(response.data)
-    obj=response.data
   })
   .catch((error) => {
     console.log(error)
   });
+  setContacts([...contacts,newContact])
   }
   function deleteContactHandler(id){
     // const updatedContacts=contacts.filter((contact)=>{
@@ -39,7 +33,7 @@ function App() {
   }
   
   async function currentuser(token){
-    var contacts;
+    var contact;
     console.log(token)
       await axios
         .get('http://localhost:5000/api/users/current',{
@@ -49,24 +43,27 @@ function App() {
         },)
         .then((response) => {
           // console.log(response.data)
-          contacts=response.data
+          contact=response.data;
+          setContacts(contact);
         })
         .catch((error) => {
           console.log(error)
         });
-      return contacts;
+      return contact;
   }
     const LoginUser =  async (flag) => {
       const body={
         "username": document.forms[0].username.value,
         "password": document.forms[0].password.value,
      }
-     var token="";
+     var access_token="";
      if (flag)
       {
         await axios.post('http://localhost:5000/api/users/login', body)
       .then(res => {
-        token=res.data.token; 
+        console.log(res.data.token)
+        access_token=res.data.token
+        setToken(res.data.token); 
       })
       .catch(function (error) {
         console.log(error);
@@ -78,7 +75,7 @@ function App() {
       .then(res =>console.log(res));
      }
     //  console.log(username)
-      return token;
+      return access_token;
       };
   return (<>
     <Router>
@@ -86,10 +83,10 @@ function App() {
         <Route exact path="/contacts" element={<ContactList  contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
         {/*
         <Route path="/:id" element={<ContactDetail/>}></Route> */}
-        <Route exact path="/" element={<LoginForm loginUser={LoginUser} currentuser={currentuser}/>}></Route>
+        <Route exact path="/" element={<LoginForm loginUser={LoginUser} currentuser={currentuser} token={token} setContacts={setContacts}/>}></Route>
         <Route path="/signup" element={<SignUpForm signupUser={LoginUser}/>}></Route>
-      <Route path="/user/home" element={<UserDetail/>}></Route>
-      <Route path="/user/add" element={<AddContact addContactHandler={addContactHandler}/>}></Route>
+      <Route path="/user/home" element={<UserDetail contacts={contacts}/>}></Route>
+      <Route path="/user/add" element={<AddContact addContactHandler={addContactHandler} token={token}/>}></Route>
       </Routes>
     </Router> 
       </>

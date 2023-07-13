@@ -15,11 +15,13 @@ export default function LoginForm(props){
             const token=props.loginUser(1); 
             token.then(function(result) {
                 // console.log(result)
-            let contacts=props.currentuser(result);
-            contacts.then(function(c) {
+            // let contacts=
+            props.currentuser(result);
+            // contacts.then(function(c) {
+                // props.setContacts(contacts);
                 // console.log(c);
-                navigate("/user/home",{state:{contacts:c}});
-            })
+                navigate("/user/home");
+            // })
              })
             }}>
             Submit</button>
