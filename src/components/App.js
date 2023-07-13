@@ -25,12 +25,25 @@ function App() {
     console.log(error)
   });
   }
-  function deleteContactHandler(id){
-    // const updatedContacts=contacts.filter((contact)=>{
-    //   return contact.id!==id;
-    // })
-    // setContacts(updatedContacts)
-  }
+  async function deleteContactHandler(id){
+    console.log("hello")
+    await axios
+        .delete(`http://localhost:5000/api/contacts/${id}`,{
+          headers:{
+            'Authorization':`Bearer ${token}`
+          }
+        },)
+        .then((response) => {
+          console.log(response.data.message);
+          const updatedContacts=contacts.filter((contact)=>{
+            return contact._id!==id;
+          })
+          setContacts(updatedContacts);
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+  };
   
   async function currentuser(token){
     console.log(token)
@@ -75,12 +88,12 @@ function App() {
   return (<>
     <Router>
       <Routes>
-        <Route exact path="/contacts" element={<ContactList  contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
+        {/* <Route exact path="/contacts" element={<ContactList  contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route> */}
         {/*
         <Route path="/:id" element={<ContactDetail/>}></Route> */}
         <Route exact path="/" element={<LoginForm loginUser={LoginUser} currentuser={currentuser} token={token} setContacts={setContacts}/>}></Route>
         <Route path="/signup" element={<SignUpForm signupUser={LoginUser}/>}></Route>
-      <Route path="/user/home" element={<UserDetail contacts={contacts}/>}></Route>
+      <Route path="/user/home" element={<UserDetail contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
       <Route path="/user/add" element={<AddContact addContactHandler={addContactHandler} token={token}/>}></Route>
       </Routes>
     </Router> 

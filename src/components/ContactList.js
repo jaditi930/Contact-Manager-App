@@ -1,7 +1,7 @@
 import ContactCard from "./ContactCard";
 import {Link} from "react-router-dom";
 function ContactList(props){
-console.log(props)
+// console.log(props)
 let contactsList;
     if(props.contacts.length>0)
     contactsList=props.contacts.map((contact)=>{

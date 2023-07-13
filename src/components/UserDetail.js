@@ -6,6 +6,6 @@ export default function UserDetail(props){
     // console.log(location.state.contacts)
 return(<>
     {/* <div>{location.state.username}</div> */}
-    <ContactList contacts={props.contacts}></ContactList>
+    <ContactList contacts={props.contacts} deleteContactHandler={props.deleteContactHandler}></ContactList>
     </>
 )}
