@@ -19,7 +19,6 @@ function AddContact (props){
                 <input type="number" id="phone" onChange={(e)=>{contact.phone=e.target.value}}></input>
             </div>
             <button onClick={()=>{
-                // e.preventDefault();
                  props.addContactHandler(contact);
                   navigate("/")
                   }}>

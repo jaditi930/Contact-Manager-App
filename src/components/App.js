@@ -3,8 +3,10 @@ import ContactList from './ContactList'
 import AddContact from './AddContact'
 import ContactDetail from './ContactDetail';
 import { useState } from 'react';
-import { BrowserRouter as Router,Routes,Route,Link } from 'react-router-dom';
-
+import LoginForm from './LoginForm'
+import { BrowserRouter as Router,Routes,Route,Link, useNavigate } from 'react-router-dom';
+import SignUpForm from './SignUpForm';
+import axios from 'axios';
 
 function App() {
   const [contacts,setContacts]=useState([{
@@ -22,13 +24,23 @@ function App() {
     })
     setContacts(updatedContacts)
   }
-  
+    const LoginUser =  (e) => {
+      e.preventDefault()
+      const body={
+        "username": document.forms[0].username.value,
+        "password": document.forms[0].password.value,
+     }
+      axios.post('http://localhost:5000/api/users/login', body)
+      .then(res => console.log(res.data));
+      };
   return (<>
     <Router>
       <Routes>
-        <Route exact path="/" element={<ContactList  contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
-        <Route path="/add" element={<AddContact addContactHandler={addContactHandler}/>}></Route>
-        <Route path="/:id" element={<ContactDetail/>}></Route>
+        <Route exact path="/contacts" element={<ContactList  contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
+        {/*<Route path="/add" element={<AddContact addContactHandler={addContactHandler}/>}></Route>
+        <Route path="/:id" element={<ContactDetail/>}></Route> */}
+        <Route exact path="/" element={<LoginForm loginUser={LoginUser}/>}></Route>
+        <Route path="/signup" element={<SignUpForm/>}></Route>
       </Routes>
     </Router> 
       </>
