@@ -19,11 +19,11 @@ function App() {
     }})
   .then((response) => {
     console.log(response.data)
+    setContacts([...contacts,response.data])
   })
   .catch((error) => {
     console.log(error)
   });
-  setContacts([...contacts,newContact])
   }
   function deleteContactHandler(id){
     // const updatedContacts=contacts.filter((contact)=>{
@@ -33,7 +33,6 @@ function App() {
   }
   
   async function currentuser(token){
-    var contact;
     console.log(token)
       await axios
         .get('http://localhost:5000/api/users/current',{
@@ -42,14 +41,11 @@ function App() {
           }
         },)
         .then((response) => {
-          // console.log(response.data)
-          contact=response.data;
-          setContacts(contact);
+          setContacts(response.data);
         })
         .catch((error) => {
           console.log(error)
         });
-      return contact;
   }
     const LoginUser =  async (flag) => {
       const body={
@@ -74,7 +70,6 @@ function App() {
       axios.post('http://localhost:5000/api/users/signup', body)
       .then(res =>console.log(res));
      }
-    //  console.log(username)
       return access_token;
       };
   return (<>

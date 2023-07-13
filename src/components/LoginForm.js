@@ -14,14 +14,8 @@ export default function LoginForm(props){
             e.preventDefault();
             const token=props.loginUser(1); 
             token.then(function(result) {
-                // console.log(result)
-            // let contacts=
             props.currentuser(result);
-            // contacts.then(function(c) {
-                // props.setContacts(contacts);
-                // console.log(c);
-                navigate("/user/home");
-            // })
+            navigate("/user/home");
              })
             }}>
             Submit</button>
