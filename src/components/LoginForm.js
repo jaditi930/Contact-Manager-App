@@ -12,13 +12,13 @@ export default function LoginForm(props){
                 </div>
             <button onClick={(e)=>{
             e.preventDefault();
-            const username=props.loginUser(1); 
-            username.then(function(result) {
+            const token=props.loginUser(1); 
+            token.then(function(result) {
                 // console.log(result)
-            let contacts=props.currentuser();
+            let contacts=props.currentuser(result);
             contacts.then(function(c) {
-                console.log(c);
-                navigate("/user/current",{state:{username:result,contacts:c}});
+                // console.log(c);
+                navigate("/user/home",{state:{contacts:c}});
             })
              })
             }}>

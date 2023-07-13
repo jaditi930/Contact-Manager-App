@@ -20,7 +20,7 @@ function AddContact (props){
             </div>
             <button onClick={()=>{
                  props.addContactHandler(contact);
-                  navigate("/")
+                  navigate("/user/home")
                   }}>
                 Add Contact</button>
         </form>

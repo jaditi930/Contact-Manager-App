@@ -14,45 +14,59 @@ function App() {
       id:"1",name:"Aditi",phone:"1234"},{
       id:"2",name:"Deepti",phone:"5678"
   }])
-  function addContactHandler(contact){
-    contact.id=contacts.length+1;
-    const newContacts=[...contacts,contact]
-   setContacts(newContacts)
+  async function addContactHandler(contact){
+    var obj={}
+  //   contact.id=contacts.length+1;
+  //   const newContacts=[...contacts,contact]
+  //  setContacts(newContacts)
+  await axios.post('http://localhost:5000/api/contacts',contact,{
+    withCredentials:true,
+
+  })
+  .then((response) => {
+    console.log(response.data)
+    obj=response.data
+  })
+  .catch((error) => {
+    console.log(error)
+  });
   }
   function deleteContactHandler(id){
-    const updatedContacts=contacts.filter((contact)=>{
-      return contact.id!==id;
-    })
-    setContacts(updatedContacts)
+    // const updatedContacts=contacts.filter((contact)=>{
+    //   return contact.id!==id;
+    // })
+    // setContacts(updatedContacts)
   }
   
-  async function currentuser(){
-    var obj={};
+  async function currentuser(token){
+    var contacts;
+    console.log(token)
       await axios
         .get('http://localhost:5000/api/users/current',{
-          withCredentials:true
-        })
+          headers:{
+            'Authorization':`Bearer ${token}`
+          }
+        },)
         .then((response) => {
           // console.log(response.data)
-          obj=response.data
+          contacts=response.data
         })
         .catch((error) => {
           console.log(error)
         });
-      return obj;
+      return contacts;
   }
     const LoginUser =  async (flag) => {
       const body={
         "username": document.forms[0].username.value,
         "password": document.forms[0].password.value,
      }
-     var username=""
+     var token="";
      if (flag)
       {
         await axios.post('http://localhost:5000/api/users/login', body)
       .then(res => {
-        username=res.data.user.username; 
-        console.log(res.cookies)
+        token=res.data.token; 
       })
       .catch(function (error) {
         console.log(error);
@@ -61,20 +75,21 @@ function App() {
      else
      {
       axios.post('http://localhost:5000/api/users/signup', body)
-      .then(res =>username=res.data.user.username);
+      .then(res =>console.log(res));
      }
-     console.log(username)
-      return username;
+    //  console.log(username)
+      return token;
       };
   return (<>
     <Router>
       <Routes>
         <Route exact path="/contacts" element={<ContactList  contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
-        {/*<Route path="/add" element={<AddContact addContactHandler={addContactHandler}/>}></Route>
+        {/*
         <Route path="/:id" element={<ContactDetail/>}></Route> */}
         <Route exact path="/" element={<LoginForm loginUser={LoginUser} currentuser={currentuser}/>}></Route>
         <Route path="/signup" element={<SignUpForm signupUser={LoginUser}/>}></Route>
-      <Route path="/user/current" element={<UserDetail/>}></Route>
+      <Route path="/user/home" element={<UserDetail/>}></Route>
+      <Route path="/user/add" element={<AddContact addContactHandler={addContactHandler}/>}></Route>
       </Routes>
     </Router> 
       </>

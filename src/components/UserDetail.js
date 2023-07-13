@@ -5,7 +5,7 @@ export default function UserDetail(){
     const location=useLocation();
     console.log(location.state.contacts)
 return(<>
-    <div>{location.state.username}</div>
+    {/* <div>{location.state.username}</div> */}
     <ContactList contacts={location.state.contacts}></ContactList>
     </>
 )}

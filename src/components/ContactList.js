@@ -11,7 +11,7 @@ let contactsList;
     <ul>
     {contactsList}
     </ul>
-    <Link to="add"><button>Add Contact</button></Link>
+    <Link to="/user/add"><button>Add Contact</button></Link>
     </div>
 )}
 export default ContactList;
