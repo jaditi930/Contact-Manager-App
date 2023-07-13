@@ -1,8 +1,10 @@
 import ContactCard from "./ContactCard";
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
 function ContactList(props){
-
-    const contactsList=props.contacts.map((contact)=>{
+console.log(props)
+let contactsList;
+    if(props.contacts.length>0)
+    contactsList=props.contacts.map((contact)=>{
         return <ContactCard  contact={contact} deleteContactHandler={props.deleteContactHandler}/>
     })
     return( <div>

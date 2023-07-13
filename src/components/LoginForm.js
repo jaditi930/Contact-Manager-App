@@ -1,6 +1,5 @@
 import {Link,useNavigate} from 'react-router-dom'
 export default function LoginForm(props){
-    console.log(props)
     const navigate=useNavigate();
     return (
         <div>
@@ -11,8 +10,19 @@ export default function LoginForm(props){
                 <div>
                 <input type="password" name="password" placeholder="Enter password"></input>
                 </div>
-            <button onClick={(e)=>props.loginUser(e)
-            }>Submit</button>
+            <button onClick={(e)=>{
+            e.preventDefault();
+            const username=props.loginUser(1); 
+            username.then(function(result) {
+                // console.log(result)
+            let contacts=props.currentuser();
+            contacts.then(function(c) {
+                console.log(c);
+                navigate("/user/current",{state:{username:result,contacts:c}});
+            })
+             })
+            }}>
+            Submit</button>
             </form>
         <div>Don't have an account? <Link to="/signup"><span>SignUp Here!</span></Link></div>
         </div>

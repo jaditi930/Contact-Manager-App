@@ -1,4 +1,7 @@
-export default function SignUpForm(){
+import { useNavigate } from "react-router-dom"
+
+export default function SignUpForm(props){
+    const navigate=useNavigate();
 return (
     <div>
         <form>
@@ -8,7 +11,12 @@ return (
             <div>
             <input type="password" name="password" placeholder="Enter password"></input>
             </div>
-            <button type="submit">Submit</button>
+            <div>
+            <input type="password" name="confirm_password" placeholder="Confirm password"></input>
+            </div>
+            <button type="submit" onClick={(e)=>{e.preventDefault(); props.signupUser(0);
+            navigate("/");}
+            }>Submit</button>
         </form>
     </div>
 )
