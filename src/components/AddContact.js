@@ -4,7 +4,8 @@ function AddContact (props){
     let contact={
         // id:"",
         "name":"",
-        "phoneNumber":""
+        "phoneNumber":"",
+        "emailAddress":""
     }
     const navigate=useNavigate();
     return (
@@ -18,10 +19,14 @@ function AddContact (props){
                 <label htmlFor="phone">Phone Number</label>
                 <input type="number" id="phone" onChange={(e)=>{contact.phoneNumber=e.target.value}}></input>
             </div>
+            <div>
+                <label htmlFor="email">Email id</label>
+                <input type="text" id="email" onChange={(e)=>{contact.emailAddress=e.target.value}}></input>
+            </div>
             <button onClick={()=>{
                 console.log(props.token)
                  props.addContactHandler(contact);
-                  navigate("/user/home",{state:{}})
+                  navigate("/user/home")
                   }}>
                 Add Contact</button>
         </form>

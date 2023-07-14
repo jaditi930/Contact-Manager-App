@@ -14,11 +14,16 @@ export default function EditContact(props){
         <label htmlFor="name">Phone Number</label>
         <input type="number" id="phone" defaultValue={location.state.contact.phoneNumber}></input>
         </div>
+        <div>
+        <label htmlFor="email">Email id</label>
+        <input type="text" id="email" defaultValue={location.state.contact.emailAddress}></input>
+        </div>
         <button onClick={(e)=>{
             e.preventDefault();
             const contact={
                 "name":document.forms[0].namee.value,
-                "phoneNumber":document.forms[0].phone.value
+                "phoneNumber":document.forms[0].phone.value,
+                "email":document.forms[0].email.value,
             }
             console.log(contact)
             props.updateContactHandler(contact,location.state.contact._id);

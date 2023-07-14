@@ -1,15 +1,18 @@
 import {Link} from 'react-router-dom'
 
 function ContactCard(props){
-    // console.log(props)
+    let contact=props.contact;
+    console.log(contact)
     return (
     <li>
-        <Link to={props.contact._id} state={{name: props.contact.name,phone: props.contact.phoneNumber}}> 
-       <div>{props.contact.name}</div> 
-       <div>{props.contact.phoneNumber}</div>
+        <Link to={contact._id} state={{
+            name: contact.name,phone: contact.phoneNumber, email:contact.emailAddress}}> 
+       <div>{contact.name}</div> 
+       <div>{contact.phoneNumber}</div>
+       <div>{contact.emailAddress}</div>
        </Link>
-       <button onClick={(e)=>{props.deleteContactHandler(props.contact._id)}}>delete</button>
-       <Link to="update" state={{contact:props.contact}}>
+       <button onClick={(e)=>{props.deleteContactHandler(contact._id)}}>delete</button>
+       <Link to="update" state={{contact:contact}}>
        <button>update</button>
        </Link>
     </li>

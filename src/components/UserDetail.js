@@ -1,11 +1,9 @@
-import { useLocation } from "react-router-dom"
 import ContactList from "./ContactList";
+import Header from "./Header";
 
 export default function UserDetail(props){
-    // const location=useLocation();
-    // console.log(location.state.contacts)
 return(<>
-    {/* <div>{location.state.username}</div> */}
+    <Header username={props.username}/>
     <ContactList contacts={props.contacts} deleteContactHandler={props.deleteContactHandler}></ContactList>
     </>
 )}

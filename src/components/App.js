@@ -1,16 +1,16 @@
 import '../App.css';
-import ContactList from './ContactList'
 import AddContact from './AddContact'
 import ContactDetail from './ContactDetail';
-import { useState } from 'react';
 import LoginForm from './LoginForm'
-import { BrowserRouter as Router,Routes,Route,Link, useNavigate } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
-import axios from 'axios';
 import UserDetail from './UserDetail';
 import EditContact from './EditContact';
+import { useState } from 'react';
+import { BrowserRouter as Router,Routes,Route} from 'react-router-dom';
+import axios from 'axios';
 
 function App() {
+  const [username,setUser]=useState("")
   const [contacts,setContacts]=useState([])
   const [token,setToken]=useState("");
   async function addContactHandler(newContact){
@@ -64,22 +64,14 @@ function App() {
               if(contacts[i]._id===id)
               break;
           }
-          console.log(i);
-        // 1. Make a shallow copy of the items
+        console.log(i);
         let cons = [...contacts];
-        // 2. Make a shallow copy of the item you want to mutate
         let con = {...contacts[i]};
-        // 3. Replace the property you're intested in
         con=response.data;
-        // 4. Put it back into our array. N.B. we *are* mutating the array here, 
-        //    but that's why we made a copy first
         cons[i] = con;
         console.log(cons)
-        // 5. Set the state to our new copy
         setContacts([...cons]);
-          console.log(contacts);
-          // setContacts([...contacts,response.data])
-          // console.log(contacts);
+        console.log(contacts);
         })
         .catch((error) => {
           console.log(error)
@@ -116,6 +108,7 @@ function App() {
         console.log(res.data.token)
         access_token=res.data.token
         setToken(res.data.token); 
+        setUser(body["username"])
       })
       .catch(function (error) {
         console.log(error);
@@ -134,7 +127,7 @@ function App() {
         <Route path="/user/home/:id" element={<ContactDetail/>}></Route>
         <Route exact path="/" element={<LoginForm loginUser={LoginUser} currentuser={currentuser} token={token} setContacts={setContacts}/>}></Route>
         <Route path="/signup" element={<SignUpForm signupUser={LoginUser}/>}></Route>
-      <Route path="/user/home" element={<UserDetail contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
+      <Route path="/user/home" element={<UserDetail username={username} contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
       <Route path="/user/add" element={<AddContact addContactHandler={addContactHandler} token={token}/>}></Route>
       <Route path="/user/home/update" element={<EditContact updateContactHandler={updateContactHandler}/>}></Route>
       </Routes>
