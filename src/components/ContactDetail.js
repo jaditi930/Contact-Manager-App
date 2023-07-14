@@ -7,7 +7,7 @@ export default function ContactDetail(){
     return (<>
     <div>{name}</div>
     <div>{phone}</div>
-    <Link to="/"><button>Back to Contacts</button></Link>
+    <Link to="/user/home"><button>Back to Contacts</button></Link>
 
     </>)
 }          

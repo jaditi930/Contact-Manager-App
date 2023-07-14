@@ -88,9 +88,7 @@ function App() {
   return (<>
     <Router>
       <Routes>
-        {/* <Route exact path="/contacts" element={<ContactList  contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route> */}
-        {/*
-        <Route path="/:id" element={<ContactDetail/>}></Route> */}
+        <Route path="/user/home/:id" element={<ContactDetail/>}></Route>
         <Route exact path="/" element={<LoginForm loginUser={LoginUser} currentuser={currentuser} token={token} setContacts={setContacts}/>}></Route>
         <Route path="/signup" element={<SignUpForm signupUser={LoginUser}/>}></Route>
       <Route path="/user/home" element={<UserDetail contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
