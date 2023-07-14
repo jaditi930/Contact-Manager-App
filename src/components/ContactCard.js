@@ -9,6 +9,9 @@ function ContactCard(props){
        <div>{props.contact.phoneNumber}</div>
        </Link>
        <button onClick={(e)=>{props.deleteContactHandler(props.contact._id)}}>delete</button>
+       <Link to="update" state={{contact:props.contact}}>
+       <button>update</button>
+       </Link>
     </li>
     )}
 export default ContactCard;

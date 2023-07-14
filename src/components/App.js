@@ -8,6 +8,7 @@ import { BrowserRouter as Router,Routes,Route,Link, useNavigate } from 'react-ro
 import SignUpForm from './SignUpForm';
 import axios from 'axios';
 import UserDetail from './UserDetail';
+import EditContact from './EditContact';
 
 function App() {
   const [contacts,setContacts]=useState([])
@@ -19,7 +20,10 @@ function App() {
     }})
   .then((response) => {
     console.log(response.data)
+    if (contacts.length>0)
     setContacts([...contacts,response.data])
+    else
+    setContacts([response.data])
   })
   .catch((error) => {
     console.log(error)
@@ -42,6 +46,45 @@ function App() {
         })
         .catch((error) => {
           console.log(error)
+        });
+  };
+  async function updateContactHandler(contact,id){
+    console.log(contact)
+    await axios
+        .put(`http://localhost:5000/api/contacts/${id}`,contact,{
+          headers:{
+            'Authorization':`Bearer ${token}`
+          }
+        },)
+        .then((response) => {
+          console.log(response.data);
+          let i;
+          for(i=0;i<contacts.length;i++)
+          {
+              if(contacts[i]._id===id)
+              break;
+          }
+          console.log(i);
+        // 1. Make a shallow copy of the items
+        let cons = [...contacts];
+        // 2. Make a shallow copy of the item you want to mutate
+        let con = {...contacts[i]};
+        // 3. Replace the property you're intested in
+        con=response.data;
+        // 4. Put it back into our array. N.B. we *are* mutating the array here, 
+        //    but that's why we made a copy first
+        cons[i] = con;
+        console.log(cons)
+        // 5. Set the state to our new copy
+        setContacts([...cons]);
+          console.log(contacts);
+          // setContacts([...contacts,response.data])
+          // console.log(contacts);
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+        .finally({
         });
   };
   
@@ -93,6 +136,7 @@ function App() {
         <Route path="/signup" element={<SignUpForm signupUser={LoginUser}/>}></Route>
       <Route path="/user/home" element={<UserDetail contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
       <Route path="/user/add" element={<AddContact addContactHandler={addContactHandler} token={token}/>}></Route>
+      <Route path="/user/home/update" element={<EditContact updateContactHandler={updateContactHandler}/>}></Route>
       </Routes>
     </Router> 
       </>
