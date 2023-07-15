@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom"
 export default function EditContact(props){
     const navigate=useNavigate();
     const location=useLocation();
-    console.log(location)
     return (
         <form>
         <div>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Hello
+    <script>
+    //     window.onload = function() {
+    // var reloading = sessionStorage.getItem("reloading");
+    // if (reloading) {
+    //     sessionStorage.removeItem("reloading");
+    //     myFunction();
+    // }
+// }
+window.addEventListener("load", (event) => {
+    myFunction(); // already declared somewhere else
+});
+function myFunction(){
+    console.log("world");
+    document.body.innerHTML+="<div>World</div>";
+}
+// window.onbeforeunload=function() {
+//     sessionStorage.setItem("reloading", "true");
+//     document.location.reload();
+//     myFunction();
+// }
+    </script>
+</body>
+</html>

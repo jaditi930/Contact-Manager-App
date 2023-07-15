@@ -2,7 +2,6 @@ import {Link} from 'react-router-dom'
 
 function ContactCard(props){
     let contact=props.contact;
-    console.log(contact)
     return (
     <li>
         <Link to={contact._id} state={{

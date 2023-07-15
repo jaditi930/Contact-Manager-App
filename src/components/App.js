@@ -8,18 +8,16 @@ import EditContact from './EditContact';
 import { useState } from 'react';
 import { BrowserRouter as Router,Routes,Route} from 'react-router-dom';
 import axios from 'axios';
-
 function App() {
   const [username,setUser]=useState("")
   const [contacts,setContacts]=useState([])
   const [token,setToken]=useState("");
+
   async function addContactHandler(newContact){
-    console.log(newContact)
-  await axios.post('http://localhost:5000/api/contacts',newContact,{headers:{
+  await axios.post('https://contacts-backend-alpha.vercel.app/api/contacts',newContact,{headers:{
     'Authorization':`Bearer ${token}`
     }})
   .then((response) => {
-    console.log(response.data)
     if (contacts.length>0)
     setContacts([...contacts,response.data])
     else
@@ -29,10 +27,19 @@ function App() {
     console.log(error)
   });
   }
+  window.addEventListener("load", function (e) {
+    switch(this.window.location.pathname){
+      case '/user/home':    
+      setToken(this.localStorage.getItem("access_token"));
+      setUser(this.localStorage.getItem("username"));
+      currentuser(this.localStorage.getItem("access_token"));  
+      break;
+    }
+    return null;
+  });
   async function deleteContactHandler(id){
-    console.log("hello")
     await axios
-        .delete(`http://localhost:5000/api/contacts/${id}`,{
+        .delete(`https://contacts-backend-alpha.vercel.app/api/contacts/${id}`,{
           headers:{
             'Authorization':`Bearer ${token}`
           }
@@ -49,29 +56,24 @@ function App() {
         });
   };
   async function updateContactHandler(contact,id){
-    console.log(contact)
     await axios
-        .put(`http://localhost:5000/api/contacts/${id}`,contact,{
+        .put(`https://contacts-backend-alpha.vercel.app/api/contacts/${id}`,contact,{
           headers:{
             'Authorization':`Bearer ${token}`
           }
         },)
         .then((response) => {
-          console.log(response.data);
           let i;
           for(i=0;i<contacts.length;i++)
           {
               if(contacts[i]._id===id)
               break;
           }
-        console.log(i);
         let cons = [...contacts];
         let con = {...contacts[i]};
         con=response.data;
         cons[i] = con;
-        console.log(cons)
         setContacts([...cons]);
-        console.log(contacts);
         })
         .catch((error) => {
           console.log(error)
@@ -81,9 +83,8 @@ function App() {
   };
   
   async function currentuser(token){
-    console.log(token)
       await axios
-        .get('http://localhost:5000/api/users/current',{
+        .get('https://contacts-backend-alpha.vercel.app/api/users/current',{
           headers:{
             'Authorization':`Bearer ${token}`
           }
@@ -103,11 +104,11 @@ function App() {
      var access_token="";
      if (flag)
       {
-        await axios.post('http://localhost:5000/api/users/login', body)
+        await axios.post('https://contacts-backend-alpha.vercel.app/api/users/login', body)
       .then(res => {
-        console.log(res.data.token)
         access_token=res.data.token
-        setToken(res.data.token); 
+        localStorage.setItem("access_token",access_token);
+        localStorage.setItem("username",body["username"]);
         setUser(body["username"])
       })
       .catch(function (error) {
@@ -116,18 +117,25 @@ function App() {
       }
      else
      {
-      axios.post('http://localhost:5000/api/users/signup', body)
+      axios.post('https://contacts-backend-alpha.vercel.app/api/users/signup', body)
       .then(res =>console.log(res));
      }
       return access_token;
       };
+      function logoutHandler(){
+        setToken("")
+        setUser("")
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("username");
+        
+      }
   return (<>
     <Router>
       <Routes>
         <Route path="/user/home/:id" element={<ContactDetail/>}></Route>
         <Route exact path="/" element={<LoginForm loginUser={LoginUser} currentuser={currentuser} token={token} setContacts={setContacts}/>}></Route>
         <Route path="/signup" element={<SignUpForm signupUser={LoginUser}/>}></Route>
-      <Route path="/user/home" element={<UserDetail username={username} contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
+      <Route path="/user/home" element={<UserDetail username={username} contacts={contacts} deleteContactHandler={deleteContactHandler} logoutHandler={logoutHandler}/>}></Route>
       <Route path="/user/add" element={<AddContact addContactHandler={addContactHandler} token={token}/>}></Route>
       <Route path="/user/home/update" element={<EditContact updateContactHandler={updateContactHandler}/>}></Route>
       </Routes>
