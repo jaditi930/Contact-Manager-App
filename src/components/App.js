@@ -28,12 +28,21 @@ function App() {
   });
   }
   window.addEventListener("load", function (e) {
-    switch(this.window.location.pathname){
-      case '/user/home':    
-      setToken(this.localStorage.getItem("access_token"));
+  if(this.window.location.pathname==="/user/home")
+    {  setToken(this.localStorage.getItem("access_token"));
       setUser(this.localStorage.getItem("username"));
       currentuser(this.localStorage.getItem("access_token"));  
-      break;
+    }
+    else if(this.window.location.pathname==="/")
+    {
+      let token=this.localStorage.getItem("access_token");
+      let user=this.localStorage.getItem("username");
+      if(token==null||user==null)
+      return;
+      setToken(this.localStorage.getItem("access_token"));
+      setUser(this.localStorage.getItem("username"));
+      this.window.location.href="http://localhost:3000/user/home"
+      currentuser(token);
     }
     return null;
   });
@@ -83,6 +92,7 @@ function App() {
   };
   
   async function currentuser(token){
+    console.log(token);
       await axios
         .get('https://contacts-backend-alpha.vercel.app/api/users/current',{
           headers:{
