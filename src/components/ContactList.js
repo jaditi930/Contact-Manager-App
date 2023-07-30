@@ -1,7 +1,10 @@
 import { useState } from "react";
 import ContactCard from "./ContactCard";
-import {Link} from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import {Link, useNavigate} from 'react-router-dom'
 function ContactList(props){
+const navigate=useNavigate();
 const [searchValue,setSearchValue]=useState("")
 let contactsList;
     if(props.contacts.length>0 && searchValue===""){
@@ -17,12 +20,28 @@ let contactsList;
             return <ContactCard  contact={contact} deleteContactHandler={props.deleteContactHandler}/>
         })
     }
-    return( <div>
-    <input type="text" name="search_bar" onChange={(e)=>setSearchValue(e.target.value)}></input>
-    <ul>
-    {contactsList}
-    </ul>
-    <Link to="/user/add"><button>Add Contact</button></Link>
+    return( 
+    <div className="contact_container" style={{}}>
+    <div className="contact_list">
+    <div id="hover">
+    <span style={{color:'#6f10a2',fontWeight:'500'}} onClick={()=>{props.logoutHandler(); 
+                navigate("/");
+            }}>Logout&nbsp;&nbsp;
+    <FontAwesomeIcon icon={faRightFromBracket} size='xl' 
+            />
+    </span>
     </div>
+        <div className="contact_heading">Contactly.in</div>
+  <div className="search">
+    <input style={{marginLeft:'auto',marginRight:'auto'}} type="text" name="search_bar" placeholder="Search ..." onChange={(e)=>setSearchValue(e.target.value)}></input>
+        <Link to="/user/add">
+        <FontAwesomeIcon icon={faUserPlus} size='2xl' style={{marginLeft:'20px',color:'#6f10a2'}}/>
+        </Link>
+    </div>
+<ul>
+    {contactsList}
+</ul>
+</div>
+</div>
 )}
 export default ContactList;

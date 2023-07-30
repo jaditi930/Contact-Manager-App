@@ -1,4 +1,7 @@
 import '../App.css';
+import '../Css/LoginForm.css'
+import '../Css/ContactList.css'
+import '../Css/ContactDetails.css'
 import AddContact from './AddContact'
 import ContactDetail from './ContactDetail';
 import LoginForm from './LoginForm'
@@ -81,8 +84,10 @@ function App() {
         let cons = [...contacts];
         let con = {...contacts[i]};
         con=response.data;
+        console.log(con)
         cons[i] = con;
         setContacts([...cons]);
+        console.log(cons)
         })
         .catch((error) => {
           console.log(error)
@@ -142,11 +147,11 @@ function App() {
   return (<>
     <Router>
       <Routes>
-        <Route path="/user/home/:id" element={<ContactDetail/>}></Route>
+        <Route path="/user/home/:id" element={<ContactDetail token={token} />}></Route>
         <Route exact path="/" element={<LoginForm loginUser={LoginUser} currentuser={currentuser} token={token} setContacts={setContacts}/>}></Route>
         <Route path="/signup" element={<SignUpForm signupUser={LoginUser}/>}></Route>
-      <Route path="/user/home" element={<UserDetail username={username} contacts={contacts} deleteContactHandler={deleteContactHandler} logoutHandler={logoutHandler}/>}></Route>
-      <Route path="/user/add" element={<AddContact addContactHandler={addContactHandler} token={token}/>}></Route>
+      <Route path="/user/home" element={<UserDetail logoutHandler={logoutHandler} username={username} contacts={contacts} deleteContactHandler={deleteContactHandler}/>}></Route>
+      <Route path="/user/add" element={<AddContact addContactHandler={addContactHandler}/>}></Route>
       <Route path="/user/home/update" element={<EditContact updateContactHandler={updateContactHandler}/>}></Route>
       </Routes>
     </Router> 
