@@ -16,7 +16,7 @@ export default function ContactDetail(){
     <div className="card__title">{name}</div>
     <div className="card__subtitle">{phone}</div>
     <div className="card__subtitle">{email}</div>
-    <Link to="/user/home"><button className="delete_button">Back to Contacts</button></Link>
+    <Link to="/user/home"><button id="back_button">Back to Contacts</button></Link>
     </div>
     </div>
     )

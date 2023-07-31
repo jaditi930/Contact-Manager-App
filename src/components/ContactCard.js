@@ -6,10 +6,10 @@ function ContactCard(props){
     let contact=props.contact;
     return (
     <li className="contact_card">
-        <FontAwesomeIcon icon={faUser} size="xl" style={{paddingRight:"20px",marginTop:"10px" ,color:"#6f10a2"}}>
         <Link to={contact._id} state={{
-            name: contact.name,phone: contact.phoneNumber, email:contact.emailAddress}}></Link>
-        </FontAwesomeIcon>
+            name: contact.name,phone: contact.phoneNumber, email:contact.emailAddress}}>
+                        <FontAwesomeIcon icon={faUser} size="xl" style={{paddingRight:"20px",marginTop:"10px" ,color:"#6f10a2"}}/>
+        </Link>
 
        <div style={{marginRight:"25px"}}>
        <div>{contact.name}</div> 

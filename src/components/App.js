@@ -44,7 +44,7 @@ function App() {
       return;
       setToken(this.localStorage.getItem("access_token"));
       setUser(this.localStorage.getItem("username"));
-      this.window.location.href="http://localhost:3000/user/home"
+      this.window.location.href="https://contactly.onrender.com/user/home"
       currentuser(token);
     }
     return null;
