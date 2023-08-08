@@ -30,25 +30,25 @@ function App() {
     console.log(error)
   });
   }
-  window.addEventListener("load", function (e) {
-  if(this.window.location.pathname==="/user/home")
-    {  setToken(this.localStorage.getItem("access_token"));
-      setUser(this.localStorage.getItem("username"));
-      currentuser(this.localStorage.getItem("access_token"));  
-    }
-    else if(this.window.location.pathname==="/")
-    {
-      let token=this.localStorage.getItem("access_token");
-      let user=this.localStorage.getItem("username");
-      if(token==null||user==null)
-      return;
-      setToken(this.localStorage.getItem("access_token"));
-      setUser(this.localStorage.getItem("username"));
-      this.window.location.href="https://contactly.onrender.com/user/home"
-      currentuser(token);
-    }
-    return null;
-  });
+  // window.addEventListener("load", function (e) {
+  // if(this.window.location.pathname==="/user/home")
+  //   {  setToken(this.localStorage.getItem("access_token"));
+  //     setUser(this.localStorage.getItem("username"));
+  //     currentuser(this.localStorage.getItem("access_token"));  
+  //   }
+  //   else if(this.window.location.pathname==="/")
+  //   {
+  //     let token=this.localStorage.getItem("access_token");
+  //     let user=this.localStorage.getItem("username");
+  //     if(token==null||user==null)
+  //     return;
+  //     setToken(this.localStorage.getItem("access_token"));
+  //     setUser(this.localStorage.getItem("username"));
+  //     this.window.location.href="https://contactly.onrender.com/user/home"
+  //     currentuser(token);
+  //   }
+  //   return null;
+  // });
   async function deleteContactHandler(id){
     await axios
         .delete(`https://contacts-backend-alpha.vercel.app/api/contacts/${id}`,{
