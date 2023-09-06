@@ -1,15 +1,29 @@
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios';
+
 function AddContact (props){
     let contact={
-        // id:"",
         "name":"",
         "phoneNumber":"",
         "emailAddress":""
     }
     const navigate=useNavigate();
-
+    async function addContactHandler(newContact){
+        await axios.post('https://contacts-backend-alpha.vercel.app/api/contacts',newContact,{headers:{
+          'Authorization':`Bearer ${props.token}`
+          }})
+        .then((response) => {
+          if (props.contacts.length>0)
+          props.setContacts([...props.contacts,response.data])
+          else
+          props.setContacts([response.data])
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+        }
     return (
         <div className="contact_container">
                 <form action="" className="form_main">
@@ -33,8 +47,7 @@ function AddContact (props){
               
            
 <button id="button"onClick={()=>{
-                        console.log(props.token)
-                         props.addContactHandler(contact);
+                         addContactHandler(contact);
                           navigate("/user/home")
                           }}>Add Contact</button>
 </form>

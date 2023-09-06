@@ -1,11 +1,41 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'
-
+import axios from "axios";
 
 export default function EditContact(props){
+    let contacts=props.contacts;
     const navigate=useNavigate();
     const location=useLocation();
+    
+    async function updateContactHandler(contact,id){
+        await axios
+            .put(`https://contacts-backend-alpha.vercel.app/api/contacts/${id}`,contact,{
+              headers:{
+                'Authorization':`Bearer ${props.token}`
+              }
+            },)
+            .then((response) => {
+              let i;
+              for(i=0;i<contacts.length;i++)
+              {
+                  if(contacts[i]._id===id)
+                  break;
+              }
+            let cons = [...contacts];
+            let con = {...contacts[i]};
+            con=response.data;
+            console.log(con)
+            cons[i] = con;
+            props.setContacts([...cons]);
+            console.log(cons)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+            .finally({
+            });
+      };
     return (
         <div className="contact_container">
         <form action="" className="form_main">
@@ -36,7 +66,7 @@ export default function EditContact(props){
         "emailAddress":document.forms[0].email.value,
     }
     console.log(contact)
-    props.updateContactHandler(contact,location.state.contact._id);
+    updateContactHandler(contact,location.state.contact._id);
     navigate("/user/home")
 }}>Update Contact</button>
 </form>
