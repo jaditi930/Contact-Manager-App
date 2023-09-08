@@ -1,13 +1,30 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import ContactCard from "./ContactCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import {Link, useNavigate} from 'react-router-dom'
-
+import axios from "axios"
 
 function ContactList(props){
-
-const navigate=useNavigate();
+ const navigate=useNavigate();
+    useEffect(()=>{
+        (async ()=>{
+            const token=localStorage.getItem("access_token")
+            await axios
+              .get('https://contacts-backend-alpha.vercel.app/api/users/current',{
+                headers:{
+                  'Authorization':`Bearer ${token}`
+                }
+              },)
+              .then((response) => {
+                props.setContacts(response.data);
+              })
+              .catch((error) => {
+                console.log(error)
+              });
+            }
+        )();
+    },[])
 const [searchValue,setSearchValue]=useState("")
 let contactsList;
     if(props.contacts.length>0 && searchValue===""){
@@ -25,9 +42,7 @@ let contactsList;
     }
     function logoutHandler(){
         props.setToken("")
-        props.setUser("")
         localStorage.removeItem("access_token");
-        localStorage.removeItem("username");
         
       }
     return( 
@@ -53,5 +68,6 @@ let contactsList;
 </ul>
 </div>
 </div>
-)}
+)
+}
 export default ContactList;

@@ -1,5 +1,6 @@
 import {Link,useNavigate} from 'react-router-dom'
 import axios from 'axios';
+import { useEffect } from 'react';
 
 
 export default function LoginForm(props){
@@ -17,8 +18,7 @@ export default function LoginForm(props){
     .then(res => {
       access_token=res.data.token
       localStorage.setItem("access_token",access_token);
-      localStorage.setItem("username",body["username"]);
-      props.setUser(body["username"])
+      // props.setUser(body["username"])
       props.setToken(access_token)
     })
     .catch(function (error) {
@@ -27,20 +27,7 @@ export default function LoginForm(props){
     return access_token;
     }
     const navigate=useNavigate();
-    async function currentuser(token){
-        await axios
-          .get('https://contacts-backend-alpha.vercel.app/api/users/current',{
-            headers:{
-              'Authorization':`Bearer ${token}`
-            }
-          },)
-          .then((response) => {
-            props.setContacts(response.data);
-          })
-          .catch((error) => {
-            console.log(error)
-          });
-    }
+
     return (
         <div className="container">
         <form action="" className="form_main">
@@ -63,11 +50,9 @@ export default function LoginForm(props){
                
     <button id="button" onClick={async(e)=>{
                 e.preventDefault();
-                let access_token=await LoginUser(); 
-                if(access_token!==""){
-                await currentuser(access_token);
+                let access_token=await LoginUser();
+                localStorage.setItem("access_token",access_token);
                 navigate("/user/home");
-                }
                 }}>Login</button>
         <div className="forgotLink">Don't have an account? <Link to="/signup"><span>SignUp Here!</span></Link></div>
     </form>
